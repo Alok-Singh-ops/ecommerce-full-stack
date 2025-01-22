@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { UserController } from "../controllers/User";
 
 const userRouter = Router()
@@ -14,9 +14,11 @@ userRouter.get("/",(req:Request,res:Response)=>{
 
 })
 
-userRouter.post("/signin",(req:Request,res:Response)=>{
-    userController.signIn(req,res)
+userRouter.post("/signup",(req:Request,res:Response,next:NextFunction)=>{
+    userController.createUser(req,res,next)
 })
+
+
 
 
 // todo: signup

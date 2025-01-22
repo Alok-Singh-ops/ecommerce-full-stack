@@ -1,5 +1,9 @@
+
 import express, { Request, Response } from 'express';
 import v1Router from './v1';
+import {config} from "dotenv"
+import { errorHandler } from './v1/middlewares/errorHandler';
+config()
 const app = express();
 const PORT  = 3000;
 
@@ -13,6 +17,10 @@ app.get("/health",(req:Request,res:Response)=>{
         message: "Server is up and running"
     })
 })
+
+
+
+app.use(errorHandler)
 
 
 app.listen(PORT,()=>{
