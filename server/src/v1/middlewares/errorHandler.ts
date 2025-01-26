@@ -11,13 +11,17 @@ export const errorHandler: ErrorRequestHandler = (
   res: Response,
   next: NextFunction
 ) => {
+
+
+
+
   console.error({
     name: error.name,
     message: error.message,
     stack: error.stack,
     path: req.path,
     method: req.method,
-  });
+  },"error from middleware");
 
   if (error instanceof BaseError) {
     res.status(error.statusCode).json({
@@ -48,6 +52,8 @@ export const errorHandler: ErrorRequestHandler = (
     });
     return;
   }
+
+
 
   res.status(500).json({
     status: "error",
