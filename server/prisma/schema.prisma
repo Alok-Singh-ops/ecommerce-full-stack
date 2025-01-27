@@ -14,19 +14,18 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid()) @unique
-  email     String  @unique
+  id        String    @id @unique @default(uuid())
+  email     String    @unique
   name      String?
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  cart      Cart?   // One-to-one relationship with Cart
-  comments Comment[]
-
-
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  cart      Cart? // One-to-one relationship with Cart
+  comments  Comment[]
 }
+
 model Admin {
-  id        String   @id @default(uuid()) @unique
+  id String @id @unique @default(uuid())
 
   email     String   @unique
   name      String?
@@ -36,45 +35,39 @@ model Admin {
 }
 
 model Product {
-   id        String   @id @default(uuid()) @unique
+  id          String     @id @unique @default(uuid())
   title       String
   description String?
   price       Int
   imgUrl      String?
   cartItems   CartItem[]
-  comments Comment[]
+  comments    Comment[]
 }
 
 model Purchase {
-  id        String   @id @default(uuid()) @unique
-  status      PaymentType @default(PENDING)
+  id     String      @id @unique @default(uuid())
+  status PaymentType @default(PENDING)
 }
-
 
 model Cart {
-  id        String   @id @default(uuid()) @unique
-  userId    String       @unique // Each user has one cart
-  user      User         @relation(fields: [userId], references: [id])
-  cartItems CartItem[]   // Many-to-many relationship through CartItem
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  id        String     @id @unique @default(uuid())
+  userId    String     @unique // Each user has one cart
+  user      User       @relation(fields: [userId], references: [id])
+  cartItems CartItem[] // Many-to-many relationship through CartItem
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
-
-
 model CartItem {
-  id        String   @id @default(uuid()) @unique
-  cartId    String   // Foreign key for Cart
+  id        String   @id @unique @default(uuid())
+  cartId    String // Foreign key for Cart
   cart      Cart     @relation(fields: [cartId], references: [id])
-  productId String   // Foreign key for Product
+  productId String // Foreign key for Product
   product   Product  @relation(fields: [productId], references: [id])
   quantity  Int      @default(1) // Tracks how many of this product is in the cart
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-
-
 
 model Comment {
   id        String   @id @unique @default(uuid())
@@ -84,9 +77,8 @@ model Comment {
   productId String
   user      User     @relation(fields: [userId], references: [id])
   product   Product  @relation(fields: [productId], references: [id])
+
   @@unique([userId, productId])
-
-
 }
 
 enum PaymentType {
@@ -94,6 +86,3 @@ enum PaymentType {
   INPROCESS
   SUCCESSFULL
 }
-
-
-

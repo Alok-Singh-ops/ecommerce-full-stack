@@ -24,3 +24,8 @@ export const addProductSchema = z.object({
     imgUrl: z.string().optional()
 
 })
+
+export const addCommentSchema = z.object({
+    comment: z.string(),
+    productId: z.string(),
+})
